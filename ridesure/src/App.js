@@ -15,6 +15,7 @@ const App = () => {
   };
 
   const handleCarSelect = (car) => {
+    // Combine car details with search criteria for booking summary
     setBookingDetails({ ...car, ...searchCriteria });
     navigate('/confirmation');
   };
@@ -23,9 +24,12 @@ const App = () => {
     <Routes>
       <Route path="/" element={<HomeScreen onSearch={handleSearch} />} />
       <Route path="/vehicles" element={<CarList onSelect={handleCarSelect} />} />
-      <Route
-        path="/confirmation"
-        element={<BookingConfirmation bookingDetails={bookingDetails} />}
+      <Route 
+        path="/confirmation" 
+        element={<BookingConfirmation bookingDetails={bookingDetails} 
+                                         onModify={() => console.log("Modify invoked")}
+                                         onCancel={() => console.log("Cancel invoked")}
+                                         onConfirm={() => console.log("Confirm invoked")} />} 
       />
     </Routes>
   );
