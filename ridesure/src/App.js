@@ -1,19 +1,34 @@
-import React from 'react';
-import Navbar from './Components/navbar';
-import Home from './Components/Home';
-import SearchForm from './Components/SearchForm';
-import CarList from './components/CarList';
+import React, { useState } from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom';
+import HomeScreen from './Components/HomeScreen';
+import CarList from './Components/CarList';
+import BookingConfirmation from './Components/BookingConfirmation';
 
+const App = () => {
+  const [searchCriteria, setSearchCriteria] = useState(null);
+  const [bookingDetails, setBookingDetails] = useState(null);
+  const navigate = useNavigate();
 
-function App() {
-return(
-  <div>
-    <Navbar/>
-    <Home/>
-    <SearchForm />
-    <CarList />
-  </div>
-);
-}
+  const handleSearch = (criteria) => {
+    setSearchCriteria(criteria);
+    navigate('/vehicles');
+  };
+
+  const handleCarSelect = (car) => {
+    setBookingDetails({ ...car, ...searchCriteria });
+    navigate('/confirmation');
+  };
+
+  return (
+    <Routes>
+      <Route path="/" element={<HomeScreen onSearch={handleSearch} />} />
+      <Route path="/vehicles" element={<CarList onSelect={handleCarSelect} />} />
+      <Route
+        path="/confirmation"
+        element={<BookingConfirmation bookingDetails={bookingDetails} />}
+      />
+    </Routes>
+  );
+};
 
 export default App;
